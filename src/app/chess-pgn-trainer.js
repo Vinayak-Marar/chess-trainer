@@ -582,6 +582,9 @@ function createMistakesPGN() {
 	if ($('#manualadvance').is(':checked')) {
 		PGNText += '[PGNTrainerNextButton "1"]' + '\n';
 	}
+	if ($('#mainlineOnly').is(':checked')) {
+		PGNText += '[PGNTrainerMainlineOnly "1"]' + '\n';
+	}
 
 	failedVariations.forEach((variation) => {
 		PGNText += variation + '\n\n';
@@ -1719,13 +1722,19 @@ function removeDuplicateVariations(puzzlearray) {
  */
 function postPGNReadSetup(PGNDataFile, PGNFileName) {
 	currentFileName = PGNFileName;
-	puzzleset = loadPGNFile(PGNDataFile);
+	puzzleset = loadPGNFile(PGNDataFile, $('#mainlineOnly').is(':checked'));
 
 	if (puzzleset.length > 0) {
 		// File is now loaded
 
 		// Set any startup options found in the PGN
 		setStartupOptions();
+
+		// If the PGN itself requested mainline-only via a startup tag, it wasn't known at the initial
+		// parse above (tags are only readable once puzzleset exists), so re-parse now that we know.
+		if ($('#mainlineOnly').is(':checked')) {
+			puzzleset = loadPGNFile(PGNDataFile, true);
+		}
 
 		initialButtonSetup();
 

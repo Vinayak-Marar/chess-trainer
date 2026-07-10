@@ -110,12 +110,27 @@ function cleanPGNFile(PGNData) {
 }
 
 /**
+ * Remove all variations from a game's top-level move list, leaving only the mainline.
+ *
+ * Variation branches are simply discarded (including any variations nested inside them),
+ * so splitvariants() will produce exactly one puzzle/game per PGN entry: the mainline.
+ *
+ * @param {*} moves The top-level moves array from a parsed PGN game
+ */
+function stripVariations(moves) {
+	moves.forEach((move) => {
+		move.variations = [];
+	});
+}
+
+/**
  * Feed the PGN file provided by the user here to the PGN Parser
  *
  * @param {text} PGNFile The text of the PGN file to parse
+ * @param {boolean} mainlineOnly When true, discard all variations and keep only each game's mainline
  * @returns {object} The parsed JSON object of the PGN file
  */
-function loadPGNFile(PGNFile) {
+function loadPGNFile(PGNFile, mainlineOnly = false) {
 	let puzzleset = [];
 
 	// Clean up before parsing
@@ -127,6 +142,10 @@ function loadPGNFile(PGNFile) {
 
 		// Split the variants out and add each puzzle to the final testing set.
 		puzzlesetOriginal.forEach((puzzle) => {
+			if (mainlineOnly) {
+				stripVariations(puzzle.moves);
+			}
+
 			puzzleset.push(...splitvariants(puzzle));
 		});
 

@@ -59,6 +59,7 @@ const configuration = {
 			{ PGNTagName: 'PGNTrainerRandomize', switchname: '#randomizeSet' },
 			{ PGNTagName: 'PGNTrainerFlipped', switchname: '#flipped' },
 			{ PGNTagName: 'PGNTrainerNextButton', switchname: '#manualadvance' },
+			{ PGNTagName: 'PGNTrainerMainlineOnly', switchname: '#mainlineOnly' },
 		],
 
 		// Collection of text setting values and their associated text field inputs
@@ -90,12 +91,12 @@ const configuration = {
 
 	// Theme details for light/dark modes
 	theme: {
-		pieceThemePath: '../src/lib/chessboardjs/img/chesspieces/staunty/{piece}.svg',
+		pieceThemePath: './src/lib/chessboardjs/img/chesspieces/staunty/{piece}.svg',
 		// Could also point to a hosted path instead like this:
 		// pieceThemePath: 'https://github.com/lichess-org/lila/raw/refs/heads/master/public/piece/alpha/{piece}.svg'
-		pieceThemePathRoot: '../src/lib/chessboardjs/img/chesspieces/',
+		pieceThemePathRoot: './src/lib/chessboardjs/img/chesspieces/',
 
-		themeImgRootPath: '../src/components/themes/',
+		themeImgRootPath: './src/components/themes/',
 		themeProfiles: [
 			{
 				themeName: 'light',
